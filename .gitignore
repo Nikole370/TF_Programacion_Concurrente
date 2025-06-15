@@ -1,5 +1,7 @@
 # Ignorar carpetas específicas
-2020/
+# para ignorar absolutamente todo dentro de la carpeta 2022 usa 2022/**
+2022/**
+!2022/784-Modulo18/
+!2022/784-Modulo18/**
 env/
-**/2020/
-**/env/
+.2022.zip
