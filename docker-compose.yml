@@ -1,54 +1,48 @@
-version: '3.8'
-
 services:
+  api:
+    build:
+      context: .
+      dockerfile: api/api.Dockerfile
+    container_name: api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    networks:
+      - red
+
   redis:
-    image: redis:alpine
-    container_name: redis_server
+    image: redis
+    container_name: redis
     ports:
       - "6379:6379"
     networks:
-      my_network:
-        ipv4_address: 172.20.0.10
+      - red
 
   nodo1:
     build:
       context: .
       dockerfile: Nodos/Node1/Dockerfile
-    ports:
-      - "19002:9002"
-    depends_on:
-      - redis
+    container_name: nodo1
     networks:
-      my_network:
-        ipv4_address: 172.20.0.2
+      - red
 
   nodo2:
     build:
       context: .
       dockerfile: Nodos/Node2/Dockerfile
-    ports:
-      - "29002:9002"
-    depends_on:
-      - redis
+    container_name: nodo2
     networks:
-      my_network:
-        ipv4_address: 172.20.0.3
+      - red
 
   nodo3:
     build:
       context: .
       dockerfile: Nodos/Node3/Dockerfile
-    ports:
-      - "39002:9002"
-    depends_on:
-      - redis
+    container_name: nodo3
     networks:
-      my_network:
-        ipv4_address: 172.20.0.4
+      - red
 
 networks:
-  my_network:
+  red:
     driver: bridge
-    ipam:
-      config:
-        - subnet: "172.20.0.0/24"
