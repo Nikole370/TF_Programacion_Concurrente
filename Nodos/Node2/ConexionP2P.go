@@ -68,7 +68,8 @@ func main() {
 	fmt.Printf("Mi IP es %s\n", hostIP)
 
 	// 3) Declarar todas las IPs del cluster (incluyéndome)
-	addrs = []string{"172.20.0.2", "172.20.0.3", "172.20.0.4"}
+	//addrs = []string{"172.20.0.2", "172.20.0.3", "172.20.0.4"}
+	addrs = []string{"nodo1", "nodo2", "nodo3"}
 
 	// 4) Iniciar servidor P2P
 	go servicioHP()
