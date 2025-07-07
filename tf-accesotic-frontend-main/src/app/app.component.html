@@ -1,0 +1,48 @@
+<div class="container"> 
+  <h2>Predicción de acceso a TIC</h2>
+
+  <!-- Formulario -->
+  <form (ngSubmit)="enviarDatos()" #formulario="ngForm">
+    <!-- Campo DOMINIO -->
+    <div class="form-group">
+      <label for="dominio">Dominio</label>
+      <input
+        type="number"
+        id="dominio"
+        name="dominio"
+        [(ngModel)]="formData.dominio"
+        min="1"
+        step="0.1"
+        required
+      />
+      <small class="form-text">
+        Dominio (número): ámbito de inferencia. Según ENAHO, puede representar si el hogar está en zona urbana (1.0), rural (2.0), o región.
+      </small>
+    </div>
+
+    <!-- Campo ESTRATO -->
+    <div class="form-group">
+      <label for="estrato">Estrato</label>
+      <input
+        type="number"
+        id="estrato"
+        name="estrato"
+        [(ngModel)]="formData.estrato"
+        min="1"
+        step="0.1"
+        required
+      />
+      <small class="form-text">
+        Estrato (número): grupo socioeconómico de muestreo. Representa el nivel económico del hogar, como 2.0, 5.0, 10.0.
+      </small>
+    </div>
+
+    <button type="submit" [disabled]="formulario.invalid">Enviar</button>
+  </form>
+
+  <!-- Resultado -->
+  <div *ngIf="resultado" class="resultado">
+    <h3>Resultado de la predicción</h3>
+    <pre>{{ resultado | json }}</pre>
+  </div>
+</div>
