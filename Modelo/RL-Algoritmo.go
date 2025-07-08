@@ -17,17 +17,12 @@ func sigmoid(z float64) float64 {
 }
 
 // predict clasifica el ejemplo X y devuelve una etiqueta en texto.
-func predict(X []float64, weights []float64) string {
+func predict(X []float64, weights []float64) float64 {
 	var z float64
 	for i := 0; i < len(X); i++ {
 		z += X[i] * weights[i]
 	}
-	prob := sigmoid(z)
-
-	if prob >= 0.5 {
-		return "Si usa"
-	}
-	return "No usa"
+	return sigmoid(z)
 }
 
 func loadCSVData(path string, partitionIdx, totalPartitions int) ([][]float64, []float64, float64, float64, float64, float64, error) {
