@@ -43,7 +43,7 @@ export class AppComponent {
     this.http.post<any>('http://localhost:8080/predict', this.formData).subscribe(
       (res) => {
         const valor = parseFloat(res.prediccion);
-        const resultadoFinal = valor >= 0.5 ? 'Usa' : 'No usa';
+        const resultadoFinal = valor >= 0.25 ? 'Usa' : 'No usa';
 
         this.resultado = resultadoFinal;
 
