@@ -11,6 +11,14 @@ services:
     networks:
       - red
 
+  frontend:
+    build: tf-accesotic-frontend-main
+    container_name: frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - api
+
   redis:
     image: redis
     container_name: redis

@@ -45,4 +45,27 @@
     <h3>Resultado de la predicción</h3>
     <pre>{{ resultado | json }}</pre>
   </div>
+
+  <div *ngIf="historial.length > 0">
+  <h3>Historial de predicciones</h3>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Dominio</th>
+        <th>Estrato</th>
+        <th>Probabilidad</th>
+        <th>Resultado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of historial">
+        <td>{{ item.dominio }}</td>
+        <td>{{ item.estrato }}</td>
+        <td>{{ item.prediccion | number:'1.4-4' }}</td>
+        <td>{{ item.resultado }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 </div>

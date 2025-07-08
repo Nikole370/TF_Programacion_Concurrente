@@ -1,6 +1,13 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+interface Registro {
+  dominio: number;
+  estrato: number;
+  prediccion: number;
+  resultado: string;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,15 +15,12 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent {
   formData = {
-    ubigeo: '',
-    dominio: '',
-    estrato: '',
-    gastoG: '',
-    gastoH: '',
-    usoTIC: ''
+    dominio: 1,
+    estrato: 1
   };
 
   resultado: any = null;
+  historial: Registro[] = [];
   yaEntrenado = false;
 
   constructor(private http: HttpClient) {}
@@ -26,7 +30,6 @@ export class AppComponent {
       this.http.post('http://localhost:8080/train', {}).subscribe(() => {
         this.yaEntrenado = true;
 
-        // ⏳ Esperar 7 segundos antes de predecir
         setTimeout(() => {
           this.realizarPrediccion();
         }, 7000);
@@ -36,19 +39,24 @@ export class AppComponent {
     }
   }
 
-
   realizarPrediccion() {
-  this.http.post(
-    'http://localhost:8080/predict',
-    {
-      estrato: parseFloat(this.formData.estrato),
-      dominio: parseFloat(this.formData.dominio)
-    },
-    { responseType: 'text' }
-  ).subscribe(probStr => {
-    const prob = parseFloat(probStr);
-    this.resultado = prob >= 1 ? 'Si usa' : 'No usa';
-  });
-  }
+    this.http.post<any>('http://localhost:8080/predict', this.formData).subscribe(
+      (res) => {
+        const valor = parseFloat(res.prediccion);
+        const resultadoFinal = valor >= 0.5 ? 'Usa' : 'No usa';
 
+        this.resultado = resultadoFinal;
+
+        this.historial.push({
+          dominio: this.formData.dominio,
+          estrato: this.formData.estrato,
+          prediccion: valor,
+          resultado: resultadoFinal
+        });
+      },
+      (err) => {
+        console.error('Error en la predicción:', err);
+      }
+    );
+  }
 }
