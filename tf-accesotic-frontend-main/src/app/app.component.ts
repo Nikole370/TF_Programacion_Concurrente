@@ -38,11 +38,17 @@ export class AppComponent {
 
 
   realizarPrediccion() {
-    this.http.post('http://localhost:8080/predict', {
+  this.http.post(
+    'http://localhost:8080/predict',
+    {
       estrato: parseFloat(this.formData.estrato),
       dominio: parseFloat(this.formData.dominio)
-    }).subscribe(response => {
-      this.resultado = response;
-    });
+    },
+    { responseType: 'text' }
+  ).subscribe(probStr => {
+    const prob = parseFloat(probStr);
+    this.resultado = prob >= 1 ? 'Si usa' : 'No usa';
+  });
   }
+
 }
